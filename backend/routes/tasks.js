@@ -5,8 +5,12 @@ const authenticateToken = require("../middleware/auth");
 
 router.post("/", authenticateToken, async (req, res) => {
   const { title, description } = req.body;
-  const task = await Task.create({ title, description, userid: req.user.id });
-  res.status(201).json(task);
+  try {
+    const task = await Task.create({ title, description, userId: req.user.id });
+    res.status(201).json(task);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 router.get("/", authenticateToken, async (req, res) => {

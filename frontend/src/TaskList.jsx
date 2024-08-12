@@ -30,7 +30,7 @@ function TaskList({ token }) {
       await axios.post("http://localhost:5000/api/tasks", newTask, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setNewTask({ title: "", description: "", status: "pending" });
+      setNewTask({ title: "", description: "" });
       fetchTasks();
     } catch (error) {
       console.error("Error creating task:", error);
@@ -78,27 +78,14 @@ function TaskList({ token }) {
           }
           placeholder="Description"
         />
-        <select
-          value={newTask.status}
-          onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}
-        >
-          <option value="pending">Pending</option>
-          <option value="in_progress">In Progress</option>
-          <option value="completed">Completed</option>
-        </select>
+
         <button type="submit">Add Task</button>
       </form>
       <ul>
         {tasks.map((task) => (
           <li key={task.id}>
-            {task.title} - {task.status}
-            <button
-              onClick={() =>
-                updateTask(task.id, { ...task, status: "completed" })
-              }
-            >
-              Mark as Completed
-            </button>
+            {task.title}
+
             <button onClick={() => deleteTask(task.id)}>Delete</button>
           </li>
         ))}
